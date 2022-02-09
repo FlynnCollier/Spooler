@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.tcc": "cpp",
+        "ostream": "cpp"
+    },
+    "arduino.additionalUrls": [
+        "https://dl.espressif.com/dl/package_esp32_index.json",
+        "https://raw.githubusercontent.com/jantje/arduino-esp32/master/package/package_Espressif_esp32_index.json"
+    ]
+}

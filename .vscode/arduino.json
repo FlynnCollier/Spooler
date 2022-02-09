@@ -1,0 +1,8 @@
+{
+    "sketch": ".\\spooler.ino",
+    "board": "esp32:esp32:firebeetle32",
+    "configuration": "FlashFreq=80,UploadSpeed=921600",
+    "port": "COM4",
+    "output": "./build",
+    "programmer": "arduino:avrisp"
+}
