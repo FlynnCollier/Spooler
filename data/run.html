@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Spooler</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Run</h1>
+      <form>
+        <p>
+          <label>Turns</label>
+          <input type="number" step="1" min="1" id="turns" name="turns" required="true" value="1">
+        </p>
+        <p>
+          <label>Guage</label>
+          <input type="number" step="1" min="1" id="gauge" name="gauge" required="true" value="10">
+        </p>
+        <br>
+        <p class="actions">
+          <button id="start-button" title="start" formaction="/start"></button>
+          <button id="home-button" title="home" type="button" onclick="goTo('/')"></button>
+        </p>
+      </form>
+    </div>
+    <script src="softlink.js"></script>
+  </body>
+</html>

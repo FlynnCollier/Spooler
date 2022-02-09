@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Spooler</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body onload="setup()">
+    <div class="container">
+      <h1>Alignment</h1>
+      <form>
+        <p>
+          <div class="slidecontainer">
+            <label>Degrees:</label>
+            <output>1</output>
+            <input id="degrees" type="range" min="1" max="360" value="1" class="slider" oninput="this.previousElementSibling.value = this.value">
+          </div>
+        </p>
+        <br>
+        <p class="actions">
+          <button id="left-button" title="move left" type="button"></button>
+          <button id="right-button" title="move right" type="button"></button>
+          <button id="home-button" title="home" type="button" onclick="goTo('/')"></button>
+        </p>
+      </form>
+    </div>
+    <script src="align.js"></script>
+    <script src="softlink.js"></script>
+  </body>
+</html>
