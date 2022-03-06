@@ -52,7 +52,11 @@ class Spooler {
                 degreesToHome++;
                 Jog(-FIND_SPEED);
             }
-            Jog(FIND_SPEED);
+
+            while(digitalRead(Z_STOP_PIN) == HIGH) {
+                degreesToHome--;
+                Jog(FIND_SPEED);
+            }
 
             return degreesToHome;
         }
@@ -64,7 +68,11 @@ class Spooler {
                 degreesToEnd++;
                 Jog(FIND_SPEED);
             }
-            Jog(-FIND_SPEED);
+
+            while(digitalRead(Z_STOP_PIN) == HIGH) {
+                degreesToEnd--;
+                Jog(-FIND_SPEED);
+            }
 
             return degreesToEnd;
         }
