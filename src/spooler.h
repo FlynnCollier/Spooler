@@ -44,8 +44,9 @@ class Spooler {
 
             while (digitalRead(Z_STOP_PIN) == LOW) {
                 degreesToHome++;
-                _stepperZ->rotate(-FIND_SPEED);
+                Jog(-FIND_SPEED);
             }
+            Jog(FIND_SPEED);
 
             return degreesToHome;
         }
@@ -55,8 +56,9 @@ class Spooler {
 
             while (digitalRead(Z_STOP_PIN) == LOW) {
                 degreesToEnd++;
-                _stepperZ->rotate(FIND_SPEED);
+                Jog(FIND_SPEED);
             }
+            Jog(-FIND_SPEED);
 
             return degreesToEnd;
         }
