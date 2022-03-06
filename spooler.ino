@@ -30,7 +30,7 @@ void wireUpServer() {
     request->send(200);
   });
 
-  server.webSite->on("/align", HTTP_POST,[](AsyncWebServerRequest *request){
+  server.webSite->on("/align", HTTP_GET,[](AsyncWebServerRequest *request){
     spooler.Align();
     request->send(200);
   });
