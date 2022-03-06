@@ -106,7 +106,7 @@ class Spooler {
         void Start(int windings, int gauge) {
             _windings = windings;
             _gauge = gauge;
-            _state = aligning;
+            _state = processing;
         }
 
         void Stop() {
