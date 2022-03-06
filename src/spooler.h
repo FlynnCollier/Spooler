@@ -81,7 +81,7 @@ class Spooler {
             }
 
             Serial.print("degrees to end: ");
-            Serial.println(degreesToHome);
+            Serial.println(degreesToEnd);
             return degreesToEnd;
         }
 
