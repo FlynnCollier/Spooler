@@ -114,14 +114,14 @@ class Spooler {
         }
 
         void Align() {
-            FindEnd();
-            _widthIndegrees = FindHome();
+            _state = aligning;
         }
 
         void Process() {
             if (_state == aligning) {
                 Serial.println("aligning...");
-                Align();
+                FindEnd();
+                _widthIndegrees = FindHome();
                 _state = idle;
             }
 
