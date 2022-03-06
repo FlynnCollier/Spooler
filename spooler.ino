@@ -5,7 +5,7 @@
 #include "ESPmDNS.h"
 #include "WiFi.h"
 #include "ESPAsyncWebServer.h"
-#include "SPIFFS.h"
+#include "src/storage.h"
 
 #define MOTOR_STEPS 200
 #define MOTOR_C_RPM 60
@@ -41,7 +41,7 @@ AsyncWebServer server(80);
 
 void setup() {
   Serial.begin(115200);
-  startFiles();
+  StartStorage();
   startWebServer();
 
   stepperC.begin(MOTOR_C_RPM, MICROSTEPS);
@@ -49,23 +49,6 @@ void setup() {
 
   digitalWrite(ENABLE_C, LOW);
   digitalWrite(ENABLE_Z, LOW);
-}
-
-void startFiles() {
-  bool filesAreOnline = SPIFFS.begin(true);
-  if (!filesAreOnline) {
-    Serial.println("An Error has occurred while mounting SPIFFS");
-    return;
-  }
-
-  File root = SPIFFS.open("/");
-  File file = root.openNextFile();
-
-  Serial.println("Files:");
-  while(file){
-      Serial.println(file.name());
-      file = root.openNextFile();
-  }
 }
 
 void startWebServer() {
