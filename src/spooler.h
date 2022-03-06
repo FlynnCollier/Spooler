@@ -33,17 +33,13 @@ enum SpoolerState {
 class Spooler {
     private:
         SpoolerState _state;
-        int _degrees;
+        int _widthIndegrees;
+        int _windings;
         int _gauge;
 
         BasicStepperDriver* _stepperC;
         BasicStepperDriver* _stepperZ;
         SyncDriver* _controller;
-
-        void Align() {
-            FindEnd();
-            _degrees = FindHome();
-        }
 
         int FindHome() {
             int degreesToHome = 0;
@@ -107,7 +103,8 @@ class Spooler {
             _stepperZ->rotate(degrees);
         }
 
-        void Start(int gauge) {
+        void Start(int windings, int gauge) {
+            _windings = windings;
             _gauge = gauge;
             _state = aligning;
         }
@@ -116,22 +113,37 @@ class Spooler {
             _state = idle;
         }
 
+        void Align() {
+            FindEnd();
+            _widthIndegrees = FindHome();
+        }
+
         void Process() {
             if (_state == aligning) {
                 Serial.println("aligning...");
                 Align();
-                _state = processing;
+                _state = idle;
             }
 
             if (_state == processing) {
                 Serial.println("processing");
+                
+                int cOverZ = _gauge;
+                int position = 0;
+                int direction = 1;
+                for (int w = 0; w < _windings * 360; w++) {
+                    position += direction;
+                    _controller->rotate(direction, cOverZ);
 
-                for (int r = 0; r < _degrees; r++) {
-                    _controller->rotate(1, _gauge);
-                    if (_state != processing) break;
+                    //if reached home or end, turn around
+                    if (position >= _widthIndegrees) {
+                        direction = 1;
+                    } else if (position <= 0) {
+                        direction = -1;
+                    }
                 }
-                _state = idle;
 
+                _state = idle;
                 Serial.println("complete");
             }
         }

@@ -30,7 +30,20 @@ void wireUpServer() {
     request->send(200);
   });
 
+  server.webSite->on("/align", HTTP_POST,[](AsyncWebServerRequest *request){
+    spooler.Align();
+    request->send(200);
+  });
+
   server.webSite->on("/start", HTTP_GET, [](AsyncWebServerRequest *request){
+    int windings;
+    if (request->hasParam("windings")) {
+      windings = request->getParam("windings")->value().toInt();
+    } else {
+      request->send(SPIFFS, "/index.html", String());
+      return;
+    }
+
     int gauge;
     if (request->hasParam("gauge")) {
       gauge = request->getParam("gauge")->value().toInt();
@@ -39,7 +52,7 @@ void wireUpServer() {
       return;
     }
 
-    spooler.Start(gauge);
+    spooler.Start(windings, gauge);
     request->send(SPIFFS, "/index.html", String());
   });
   

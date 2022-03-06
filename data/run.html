@@ -11,12 +11,17 @@
       <h1>Run</h1>
       <form>
         <p>
+          <label>Windings</label>
+          <input type="number" step="1" min="1" id="windings" name="windings" required="true" value="10">
+        </p>        
+        <p>
           <label>Guage</label>
           <input type="number" step="1" min="1" id="gauge" name="gauge" required="true" value="10">
         </p>
         <br>
         <p class="actions">
           <button id="start-button" title="start" formaction="/start"></button>
+          <button id="align-button" title="align" formaction="/align"></button>
           <button id="home-button" title="home" type="button" onclick="goTo('/')"></button>
         </p>
       </form>
