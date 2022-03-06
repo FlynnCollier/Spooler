@@ -141,6 +141,9 @@ class Spooler {
                     } else if (position <= 0) {
                         direction = -1;
                     }
+
+                    if (_state != processing)
+                        break;
                 }
 
                 _state = idle;
