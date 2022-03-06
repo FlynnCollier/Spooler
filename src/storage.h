@@ -3,7 +3,7 @@
 
 #include "SPIFFS.h"
 
-void StartStorage() {
+void startStorage() {
     bool filesAreOnline = SPIFFS.begin(true);
     if (!filesAreOnline) {
         Serial.println("An Error has occurred while mounting SPIFFS");
