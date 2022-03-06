@@ -24,9 +24,15 @@
 
 #define FIND_SPEED 1
 
+enum SpoolerState {
+    idle,
+    processing,
+    aligning
+};
+
 class Spooler {
     private:
-        bool _isProcessing;
+        SpoolerState _state;
         int _degrees;
         int _gauge;
 
@@ -65,7 +71,7 @@ class Spooler {
 
     public:
         Spooler() {
-            _isProcessing = false;
+            _state = idle;
             _stepperC = new BasicStepperDriver(MOTOR_STEPS, DIR_C, STEP_C);
             _stepperZ = new BasicStepperDriver(MOTOR_STEPS, DIR_Z, STEP_Z);
             _controller = new SyncDriver(*_stepperZ, *_stepperC);
@@ -84,24 +90,27 @@ class Spooler {
         }
 
         void Start(int gauge) {
-            Align();
             _gauge = gauge;
-            _isProcessing = true;
+            _state = aligning;
         }
 
         void Stop() {
-            _isProcessing = false;
+            _state = idle;
         }
 
         void Process() {
-            if (!_isProcessing) 
-                return;
-
-            for (int r = 0; r < _degrees; r++) {
-                _controller->rotate(1, _gauge);
-                if (!_isProcessing) break;
+            if (_state == aligning) {
+                Align();
+                _state = processing;
             }
-            _isProcessing = false;
+
+            if (_state == processing) {
+                for (int r = 0; r < _degrees; r++) {
+                    _controller->rotate(1, _gauge);
+                    if (_state != processing) break;
+                }
+                _state = idle;
+            }
         }
 };
 
