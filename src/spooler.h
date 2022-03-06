@@ -48,32 +48,40 @@ class Spooler {
         int FindHome() {
             int degreesToHome = 0;
 
+            Serial.println("find home...");
             while (digitalRead(Z_STOP_PIN) == LOW) {
                 degreesToHome++;
                 Jog(-FIND_SPEED);
             }
 
+            Serial.println("jogging back...");
             while(digitalRead(Z_STOP_PIN) == HIGH) {
                 degreesToHome--;
                 Jog(FIND_SPEED);
             }
 
+            Serial.print("degrees to home: ");
+            Serial.println(degreesToHome);
             return degreesToHome;
         }
 
         int FindEnd() {
             int degreesToEnd = 0;
 
+            Serial.println("find end...");
             while (digitalRead(Z_STOP_PIN) == LOW) {
                 degreesToEnd++;
                 Jog(FIND_SPEED);
             }
 
+            Serial.println("jogging back...");
             while(digitalRead(Z_STOP_PIN) == HIGH) {
                 degreesToEnd--;
                 Jog(-FIND_SPEED);
             }
 
+            Serial.print("degrees to end: ");
+            Serial.println(degreesToHome);
             return degreesToEnd;
         }
 
@@ -94,6 +102,8 @@ class Spooler {
         }
 
         void Jog(int degrees) {
+            Serial.print("jogging: ");
+            Serial.println(degrees);
             _stepperZ->rotate(degrees);
         }
 
@@ -108,16 +118,21 @@ class Spooler {
 
         void Process() {
             if (_state == aligning) {
+                Serial.println("aligning...");
                 Align();
                 _state = processing;
             }
 
             if (_state == processing) {
+                Serial.println("processing");
+
                 for (int r = 0; r < _degrees; r++) {
                     _controller->rotate(1, _gauge);
                     if (_state != processing) break;
                 }
                 _state = idle;
+
+                Serial.println("complete");
             }
         }
 };

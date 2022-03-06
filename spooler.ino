@@ -3,10 +3,14 @@
 #include "src/storage.h"
 #include "src/spooler.h"
 
+#define SERIAL_BAUD 115200
+
 WebServer server;
 Spooler spooler;
 
 void setup() {
+  Serial.begin(SERIAL_BAUD);
+
   startStorage();
 
   server.Start();
